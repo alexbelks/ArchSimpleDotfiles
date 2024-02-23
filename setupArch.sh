@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "blacklist pcspkr" > /etc/modprode.d/nobeep.conf
 # Запрос информации от пользователя
 echo "Введите название компьютера:"
 read HOSTNAME
@@ -11,7 +11,7 @@ echo "Введите пароль для root:"
 read -s ROOT_PASSWORD
 
 # Установка основных пакетов системы
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware --needed
 
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -44,7 +44,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 echo "$HOSTNAME" > /etc/hostname
 
 # Установка основных пакетов
-pacman -Syu --noconfirm networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server awesome nvidia grub efibootmgr base-devel git xfce4 xfce4-goodies i3
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server nvidia grub efibootmgr base-devel git xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip
 
 # Настройка NetworkManager
 systemctl enable NetworkManager
@@ -71,11 +71,14 @@ EOT
 chown -R $USERNAME:users /home/$USERNAME/.config
 
 # Установка yay (AUR helper)
-git clone https://aur.archlinux.org/yay.git /home/$USERNAME/yay
-chown -R $USERNAME:users /home/$USERNAME/yay
-sudo -u $USERNAME sh -c 'cd /home/$USERNAME/yay && makepkg -si --noconfirm'
+# git clone https://aur.archlinux.org/yay.git /home/$USERNAME/yay
+# chown -R $USERNAME:users /home/$USERNAME/yay
+# chown -R $USERNAME:users /home/$USERNAME
+
+# sudo -u $USERNAME sh -c 'cd /home/$USERNAME/yay && sudo -u $USERNAME makepkg -si --noconfirm'
 
 # Очистка
-rm -rf /home/$USERNAME/yay
+# rm -rf /home/$USERNAME/yay
+systemctl enable lightdm.service
 
 EOF
