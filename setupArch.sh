@@ -81,4 +81,11 @@ chown -R $USERNAME:users /home/$USERNAME/.config
 # rm -rf /home/$USERNAME/yay
 systemctl enable lightdm.service
 
+
+
+# Отключение xfwm4 и xfdesktop, настройка i3 как оконного менеджера
+xfconf-query -c xfce4-session -p /sessions/Failsafe/Client0_Command -t string -sa "i3" -t string -sa "" --create
+xfconf-query -c xfce4-session -p /sessions/Failsafe/Client1_Command -t string -sa "" --create
+
 EOF
+
