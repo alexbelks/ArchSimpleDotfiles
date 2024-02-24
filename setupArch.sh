@@ -44,7 +44,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 echo "$HOSTNAME" > /etc/hostname
 
 # Установка основных пакетов
-pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server nvidia grub efibootmgr base-devel git xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server nvidia grub efibootmgr base-devel git xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip xdotool wmctrl zsh
 
 # Настройка NetworkManager
 systemctl enable NetworkManager
@@ -81,11 +81,51 @@ chown -R $USERNAME:users /home/$USERNAME/.config
 # rm -rf /home/$USERNAME/yay
 systemctl enable lightdm.service
 
+git clone https://aur.archlinux.org/libinput-gestures.git
+chown -R $USERNAME:users /home/$USERNAME/libinput-gestures
+cd libinput-gestures
+sudo -u $USERNAME makepkg -si --noconfir
+mudo gpasswd -a $USERNAME input
 
+sudo -u $USERNAME mkdir -p /home/$USERNAME/.config
+sudo -u $USERNAME cp /etc/libinput-gestures.conf /home/$USERNAME/.config/libinput-gestures.conf
+rm /home/$USERNAME/.config/libinput-gestures.conf -rf
 
-# Отключение xfwm4 и xfdesktop, настройка i3 как оконного менеджера
-xfconf-query -c xfce4-session -p /sessions/Failsafe/Client0_Command -t string -sa "i3" -t string -sa "" --create
-xfconf-query -c xfce4-session -p /sessions/Failsafe/Client1_Command -t string -sa "" --create
+cat << EOT > /home/$USERNAME/.config/libinput-gestures.conf
+gesture swipe up 3 xdotool key super
+gesture swipe down 3 xdotool key super+d
+gesture swipe left 3 xdotool key alt+Tab
+gesture swipe right 3 xdotool key alt+Shift+Tab
+gesture pinch in 2 xdotool key ctrl+minus
+gesture pinch out 2 xdotool key ctrl+plus
+EOT
 
+sudo -u $USERNAME bash -c 'libinput-gestures-setup autostart'
+sudo -u $USERNAME bash -c 'libinput-gestures-setup start'
+cd -
+TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
+
+# Проверяем, существует ли файл конфигурации
+if [ ! -f "$TOUCHPAD_CONFIG" ]; then
+    echo "Файл конфигурации тачпада не найден. Создаем новый."
+    # Создание директории, если она еще не существует
+    mkdir -p /etc/X11/xorg.conf.d/
+    # Создание нового файла конфигурации
+    touch "$TOUCHPAD_CONFIG"
+fi
+
+# Добавление настроек в файл конфигурации
+echo 'Section "InputClass"
+        Identifier "libinput touchpad catchall"
+        MatchIsTouchpad "on"
+        Driver "libinput"
+        Option "Tapping" "on"
+        Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
+EndSection' | sudo tee "$TOUCHPAD_CONFIG"
+
+echo "Настройки тачпада обновлены. Перезагрузите Xorg или компьютер."
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+echo plugins=(git zsh-autosuggestions zsh-syntax-highlighting history fzf thefuck) > .zshrc
+source ~/.zshrc
 EOF
 
