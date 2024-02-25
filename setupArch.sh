@@ -2,13 +2,13 @@
 mkdir /etc/modprobe.d
 echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 # Запрос информации от пользователя
-echo "Введите название компьютера:"
+echo "Enter the computer name:"
 read HOSTNAME
-echo "Введите имя пользователя:"
+echo "Enter the computer name:Enter the user name:"
 read USERNAME
-echo "Введите пароль для пользователя $USERNAME:"
+echo "Enter the password for the user $USERNAME:"
 read -s USER_PASSWORD
-echo "Введите пароль для root:"
+echo "Enter the password for root:"
 read -s ROOT_PASSWORD
 
 # Установка основных пакетов системы
