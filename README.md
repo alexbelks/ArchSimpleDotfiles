@@ -11,7 +11,7 @@
   To clone the dotfiles repository to another machine:
 
   ```bash
-   sudo sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh)"
+   sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh)"
   ```
 
   If errors occur during `checkout` due to existing files, back them up and try again.
