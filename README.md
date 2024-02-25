@@ -6,7 +6,7 @@
 ```
  
  
- #### **Cloning on another machine**
+ #### **or to the installed system**
 
   To clone the dotfiles repository to another machine:
 
