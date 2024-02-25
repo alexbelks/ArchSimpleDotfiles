@@ -1,5 +1,6 @@
 #!/bin/bash
-echo "blacklist pcspkr" > /etc/modprode.d/nobeep.conf
+mkdir /etc/modprobe.d
+echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 # Запрос информации от пользователя
 echo "Введите название компьютера:"
 read HOSTNAME
@@ -95,6 +96,13 @@ echo 'Section "InputClass"
 EndSection' | sudo tee "$TOUCHPAD_CONFIG"
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+sudo pacman -S fzf
+sudo pacman -S python-pip
+pip install thefuck
+
 source /home/$USERNAME/.zshrc
 EOF
 reboot
