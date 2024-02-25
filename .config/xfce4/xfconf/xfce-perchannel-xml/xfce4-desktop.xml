@@ -2,7 +2,17 @@
 
 <channel name="xfce4-desktop" version="1.0">
   <property name="last" type="empty">
-    <property name="window-width" type="int" value="603"/>
-    <property name="window-height" type="int" value="546"/>
+    <property name="window-width" type="int" value="722"/>
+    <property name="window-height" type="int" value="560"/>
+  </property>
+  <property name="backdrop" type="empty">
+    <property name="screen0" type="empty">
+      <property name="monitorDP-2" type="empty">
+        <property name="workspace0" type="empty">
+          <property name="last-image" type="string" value="/home/alexbelks/.local/share/backgrounds/DALL·E-2024-02-25-12.09.png"/>
+          <property name="backdrop-cycle-enable" type="bool" value="false"/>
+        </property>
+      </property>
+    </property>
   </property>
 </channel>

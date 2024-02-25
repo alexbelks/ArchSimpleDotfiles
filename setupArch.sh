@@ -49,7 +49,7 @@ git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git /home/$USER
 git --git-dir=/home/$USERNAME/.cfg/ --work-tree=/home/$USERNAME' checkout
 
 # Установка основных пакетов
-pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server nvidia grub efibootmgr base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip xdotool wmctrl zsh
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server nvidia grub efibootmgr base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclipzsh feh
 
 # Настройка NetworkManager
 systemctl enable NetworkManager
@@ -93,12 +93,8 @@ echo 'Section "InputClass"
         Option "Tapping" "on"
         Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
 EndSection' | sudo tee "$TOUCHPAD_CONFIG"
-sudo -u $USERNAME alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-sudo -u $USERNAME config checkout
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-echo "plugins=(git zsh-autosuggestions zsh-syntax-highlighting history fzf thefuck)
-export EDITOR='nvim'" > /home/$USERNAME/.zshrc
 source /home/$USERNAME/.zshrc
 EOF
 reboot
