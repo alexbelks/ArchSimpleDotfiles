@@ -20,3 +20,6 @@
 
 ![image](https://github.com/alexbelks/ArchSimpleDotfiles/assets/93944858/7ebb48c9-3899-49b5-ab55-45298dae7618)
 
+#### **Configuraiton**
+- i3
+- xfce
