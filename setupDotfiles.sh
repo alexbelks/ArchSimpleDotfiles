@@ -18,7 +18,7 @@ mkdir -p "$backup_dir"
 
 
 # Получаем список файлов, которые будут изменены или удалены командой checkout
-changed_files=$(git --git-dir="$repo_dir"--work-tree="$work_tree" status --porcelain | grep -E '^(M| D)' | cut -c4-)
+changed_files=$(git --git-dir="$repo_dir" --work-tree="$work_tree" status --porcelain | grep -E '^(M| D)' | cut -c4-)
 
 # Перебираем измененные файлы и создаем резервные копии
 echo "$changed_files" | while IFS= read -r file; do
@@ -35,7 +35,7 @@ echo good
 git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip
+sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip kitty
 
 # Настройка NetworkManager
 systemctl enable NetworkManager
