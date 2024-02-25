@@ -16,4 +16,10 @@
 
   Если при выполнении `checkout` возникают ошибки из-за существующих файлов, резервируйте их и повторите попытку.
 
+![image](https://github.com/alexbelks/ArchSimpleDotfiles/assets/93944858/9710efd6-fef3-4a15-873f-7b017d269032)
 
+![image](https://github.com/alexbelks/ArchSimpleDotfiles/assets/93944858/7ebb48c9-3899-49b5-ab55-45298dae7618)
+
+#### **Configuraiton**
+- i3
+- xfce
