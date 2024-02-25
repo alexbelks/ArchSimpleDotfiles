@@ -14,7 +14,7 @@
   Чтобы клонировать репозиторий dotfiles на другую машину:
 
   ```bash
-  git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git
+  git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git $HOME/.cfg
   alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
   config checkout
   ```
