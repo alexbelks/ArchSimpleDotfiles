@@ -1,15 +1,15 @@
 
 #!/bin/bash
 sudo pacman -Syu --noconfirm --needed git
-repo_dir="~/.cfg/"
-work_tree="~"
+repo_dir="$HOME/.cfg"
+work_tree="$HOME"
 # Проверка на существование репозитория и клонирование, если не существует
 if [ ! -d $repo_dir ]; then
     git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git $repo_dir
 else
     echo "Репозиторий ~/.cfg уже существует. Обновление..."
     git --git-dir=$repo_dir --work-tree=$work_tree fetch --all
-    git --git-dir=$repo_dir --work-tree=$work_tree --hard origin/master
+    git --git-dir=$repo_dir --work-tree=$work_tree reset --hard origin/master
 fi
 
 # Указываем директорию для резервных копий
