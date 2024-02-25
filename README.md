@@ -1,10 +1,6 @@
 #### **Полная установка Arch**
 ```bash
-  git clone https://github.com/alexbelks/ArchSimpleDotfiles.git
-  chmod +x ArchSimpleDotfiles/setupArch.sh
-  ArchSimpleDotfiles/setupArch.sh
-  rm ArchSimpleDotfiles -rf
-  reboot
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/b196ac58a37a0bcb90c22d8e31b66d6228800b71/setupArch.sh)"
 ```
  
  
