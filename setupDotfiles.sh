@@ -2,7 +2,7 @@
 pacman -Syu --noconfirm --needed git
 
 git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git ~/.cfg
-git --git-dir=~/.cfg/ --work-tree=~/ checkout
+git --git-dir=~/.cfg --work-tree=~/ checkout
 
 # Установка основных пакетов
 sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclipzsh feh
