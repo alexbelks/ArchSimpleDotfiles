@@ -5,20 +5,20 @@ repo_dir="$HOME/.cfg"
 work_tree="$HOME"
 # Проверка на существование репозитория и клонирование, если не существует
 if [ ! -d $repo_dir ]; then
-    git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git $repo_dir
+    git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git "$repo_dir"
 else
     echo "Репозиторий ~/.cfg уже существует. Обновление..."
-    git --git-dir=$repo_dir --work-tree=$work_tree fetch --all
-    git --git-dir=$repo_dir --work-tree=$work_tree reset --hard origin/master
+    git --git-dir="$repo_dir" --work-tree="$work_tree" fetch --all
+    git --git-dir="$repo_dir" --work-tree="$work_tree" reset --hard origin/master
 fi
 
 # Указываем директорию для резервных копий
 backup_dir="~/backup_$(date +%Y%m%d_%H%M%S)"
-mkdir -p $backup_dir
+mkdir -p "$backup_dir"
 
 
 # Получаем список файлов, которые будут изменены или удалены командой checkout
-changed_files=$(git --git-dir=$repo_dir --work-tree=$work_tree status --porcelain | grep -E '^(M| D)' | cut -c4-)
+changed_files=$(git --git-dir="$repo_dir"--work-tree="$work_tree" status --porcelain | grep -E '^(M| D)' | cut -c4-)
 
 # Перебираем измененные файлы и создаем резервные копии
 echo "$changed_files" | while IFS= read -r file; do
@@ -32,7 +32,7 @@ echo "$changed_files" | while IFS= read -r file; do
 done
 echo good
 # Теперь можно безопасно выполнить checkout
-git --git-dir=$repo_dir --work-tree=$work_tree checkout -f
+git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
 sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip
