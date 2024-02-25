@@ -30,7 +30,7 @@ echo "$changed_files" | while IFS= read -r file; do
         echo "Резервная копия создана для: $file"
     fi
 done
-
+echo good
 # Теперь можно безопасно выполнить checkout
 git --git-dir=$repo_dir --work-tree=$work_tree checkout -f
 
@@ -40,17 +40,18 @@ sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudi
 # Настройка NetworkManager
 systemctl enable NetworkManager
 
-# Установка yay (AUR helper)
-if [ ! -d ~/yay ]; then
+
+if ! command -v yay &> /dev/null
+then
+    echo "yay не найден, начинаем установку..."
     git clone https://aur.archlinux.org/yay.git ~/yay
     cd ~/yay && makepkg -si --noconfirm --needed
+    cd ~
+    rm -rf ~/yay
 else
-    echo "Директория ~/yay уже существует. Попытка обновления..."
-    cd ~/yay && git pull && makepkg -si --noconfirm --needed
+    echo "yay уже установлен."
 fi
-cd ~
-# Очистка
-rm -rf ~/yay
+
 systemctl enable lightdm.service
 
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
