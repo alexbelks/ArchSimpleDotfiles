@@ -25,3 +25,4 @@
 - xfce
 - kitty
 - zsh
+- nvim
