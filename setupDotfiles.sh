@@ -13,10 +13,10 @@ systemctl enable NetworkManager
 # Установка yay (AUR helper)
  git clone https://aur.archlinux.org/yay.git ~/yay
 
-cd yay &&  makepkg -si --noconfirm
-cd
+cd ~/yay &&  makepkg -si --noconfirm --needed
+cd 
 # Очистка
- rm -rf yay
+ rm -rf ~/yay
 systemctl enable lightdm.service
 
 
@@ -46,5 +46,4 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 sudo pacman -S --noconfirm --needed fzf python-pip
 pip install thefuck
-
-source /home/$USERNAME/.zshrc
+source ~/.zshrc
