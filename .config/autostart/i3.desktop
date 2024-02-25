@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=i3
+Exec=i3
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+
