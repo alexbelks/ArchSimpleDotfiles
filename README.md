@@ -23,3 +23,5 @@
 #### **Configuraiton**
 - i3
 - xfce
+- kitty
+- zsh
