@@ -16,9 +16,6 @@ fi
 backup_dir="~/backup_$(date +%Y%m%d_%H%M%S)"
 mkdir -p $backup_dir
 
-# Указываем директорию вашего git репозитория
-repo_dir="~/.cfg"
-work_tree="~"
 
 # Получаем список файлов, которые будут изменены или удалены командой checkout
 changed_files=$(git --git-dir=$repo_dir --work-tree=$work_tree status --porcelain | grep -E '^(M| D)' | cut -c4-)
