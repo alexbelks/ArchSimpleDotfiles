@@ -1,12 +1,14 @@
-#### **Полная установка Arch**
+# dotfiles
+### Minimalistic and simple dotfiles for my i3wm + xfce4 setup.
+#### **Arch installation with Russian layout**
 ```bash
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/b196ac58a37a0bcb90c22d8e31b66d6228800b71/setupArch.sh)"
 ```
  
  
- #### **Клонирование на другой машине**
+ #### **Cloning on another machine**
 
-  Чтобы клонировать репозиторий dotfiles на другую машину:
+  To clone the dotfiles repository to another machine:
 
   ```bash
   git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git $HOME/.cfg
@@ -14,7 +16,7 @@
   config checkout
   ```
 
-  Если при выполнении `checkout` возникают ошибки из-за существующих файлов, резервируйте их и повторите попытку.
+  If errors occur during `checkout` due to existing files, back them up and try again.
 
 ![image](https://github.com/alexbelks/ArchSimpleDotfiles/assets/93944858/9710efd6-fef3-4a15-873f-7b017d269032)
 
