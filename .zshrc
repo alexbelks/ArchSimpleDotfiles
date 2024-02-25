@@ -103,10 +103,4 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-<<<<<<< HEAD
-# Created by `pipx` on 2024-02-25 15:30:57
-export PATH="$PATH:/home/alexbelks/.local/bin"
-=======
-# Created by `pipx` on 2024-02-25 18:21:07
 
->>>>>>> 7ac6a63feeefb51ba21348d165c58602260c780c
