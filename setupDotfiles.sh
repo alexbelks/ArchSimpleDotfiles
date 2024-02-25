@@ -1,24 +1,60 @@
+
 #!/bin/bash
 pacman -Syu --noconfirm --needed git
+repo_dir="~/.cfg"
+work_tree="~"
+# Проверка на существование репозитория и клонирование, если не существует
+if [ ! -d ~/.cfg ]; then
+    git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git ~/.cfg
+else
+    echo "Репозиторий ~/.cfg уже существует. Обновление..."
+    git --git-dir=$repo_dir --work-tree=$work_tree fetch --all
+    git --git-dir=$repo_dir --work-tree=$work_tree --hard origin/master
+fi
 
-git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git ~/.cfg
-git --git-dir=~/.cfg --work-tree=~/ checkout
+# Указываем директорию для резервных копий
+backup_dir="~/backup_$(date +%Y%m%d_%H%M%S)"
+mkdir -p $backup_dir
+
+# Указываем директорию вашего git репозитория
+repo_dir="~/.cfg"
+work_tree="~"
+
+# Получаем список файлов, которые будут изменены или удалены командой checkout
+changed_files=$(git --git-dir=$repo_dir --work-tree=$work_tree status --porcelain | grep -E '^(M| D)' | cut -c4-)
+
+# Перебираем измененные файлы и создаем резервные копии
+echo "$changed_files" | while IFS= read -r file; do
+    if [ -f "$work_tree/$file" ]; then
+        # Создаем директории в backup_dir, если необходимо
+        mkdir -p "$backup_dir/$(dirname "$file")"
+        # Копируем файл в директорию резервных копий
+        cp "$work_tree/$file" "$backup_dir/$file"
+        echo "Резервная копия создана для: $file"
+    fi
+done
+
+# Теперь можно безопасно выполнить checkout
+git --git-dir=$repo_dir --work-tree=$work_tree checkout -f
 
 # Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclipzsh feh
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh
 
 # Настройка NetworkManager
 systemctl enable NetworkManager
 
 # Установка yay (AUR helper)
- git clone https://aur.archlinux.org/yay.git ~/yay
-
-cd ~/yay &&  makepkg -si --noconfirm --needed
-cd 
+if [ ! -d ~/yay ]; then
+    git clone https://aur.archlinux.org/yay.git ~/yay
+    cd ~/yay && makepkg -si --noconfirm --needed
+else
+    echo "Директория ~/yay уже существует. Попытка обновления..."
+    cd ~/yay && git pull && makepkg -si --noconfirm --needed
+fi
+cd ~
 # Очистка
- rm -rf ~/yay
+rm -rf ~/yay
 systemctl enable lightdm.service
-
 
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 
@@ -42,8 +78,16 @@ EndSection' | sudo tee "$TOUCHPAD_CONFIG"
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-sudo pacman -S --noconfirm --needed fzf python-pip
+# Проверка и клонирование zsh плагинов
+ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
+if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
+fi
+if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
+fi
+
+pacman -S --noconfirm --needed fzf python-pip
 pip install thefuck
 source ~/.zshrc
+
