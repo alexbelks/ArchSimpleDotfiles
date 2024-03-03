@@ -47,6 +47,7 @@
     <property name="plugin-6" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
       <property name="known-items" type="array">
+        <value type="string" value="qBittorrent"/>
         <value type="string" value="TelegramDesktop"/>
         <value type="string" value="chrome_status_icon_1"/>
       </property>
