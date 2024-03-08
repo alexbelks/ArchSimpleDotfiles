@@ -35,7 +35,7 @@ echo good
 git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip kitty; systemctl enable NetworkManager; systemctl enable lightdm.service
+sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip kitty; sudo systemctl enable NetworkManager; sudo systemctl enable lightdm.service
 
 
 
@@ -57,7 +57,7 @@ TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 if [ ! -f "$TOUCHPAD_CONFIG" ]; then
     echo "Файл конфигурации тачпада не найден. Создаем новый."
     # Создание директории, если она еще не существует
-    sudo mkdir -p /etc/X11/xorg.conf.d/;  touch "$TOUCHPAD_CONFIG"
+    sudo mkdir -p /etc/X11/xorg.conf.d/;  sudo touch "$TOUCHPAD_CONFIG"
     # Создание нового файла конфигурации
 fi
 
