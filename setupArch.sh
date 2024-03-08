@@ -47,7 +47,7 @@ echo "$HOSTNAME" > /etc/hostname
 # Настройка sudo
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-pacman -Syu --noconfirm --needed nvidia grub efibootmgr
+pacman -Syu --noconfirm --needed nvidia grub efibootmgr sudo
 
 # Настройка GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
