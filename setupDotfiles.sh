@@ -13,7 +13,7 @@ else
 fi
 
 # Указываем директорию для резервных копий
-backup_dir="~/backup_$(date +%Y%m%d_%H%M%S)"
+backup_dir="$HOME/backup_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$backup_dir"
 
 
