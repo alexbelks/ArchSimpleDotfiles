@@ -1,10 +1,8 @@
 #!/bin/bash
-mkdir /etc/modprobe.d
-echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 # Запрос информации от пользователя
 echo "Enter the computer name:"
 read HOSTNAME
-echo "Enter the computer name:Enter the user name:"
+echo "Enter the user name:"
 read USERNAME
 echo "Enter the password for the user $USERNAME:"
 read -s USER_PASSWORD
@@ -19,6 +17,9 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # Вход в chroot
 arch-chroot /mnt /bin/bash <<EOF
+
+mkdir /etc/modprobe.d
+echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 
 # Настройка временной зоны
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
@@ -44,15 +45,15 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
 
+pacman -Syu --noconfirm --needed nvidia grub efibootmgr sudo
+
 # Настройка sudo
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-
-pacman -Syu --noconfirm --needed nvidia grub efibootmgr sudo
 
 # Настройка GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
-su $USERNAME
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh)"
+curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh > /home/#USERNAME/SetupDotfiles.sh
+chmod +h /home/#USERNAME/SetupDotfiles.sh
 EOF
 reboot
