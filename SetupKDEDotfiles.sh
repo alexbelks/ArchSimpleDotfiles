@@ -1,84 +1,88 @@
-
 #!/bin/bash
-sudo pacman -Syu --noconfirm --needed git
-repo_dir="$HOME/.cfg"
-work_tree="$HOME"
-# Проверка на существование репозитория и клонирование, если не существует
-if [ ! -d $repo_dir ]; then
-    git clone --bare https://github.com/alexbelks/ArchSimpleDotfiles.git "$repo_dir"
-else
-    echo "Репозиторий ~/.cfg уже существует. Обновление..."
-    git --git-dir="$repo_dir" --work-tree="$work_tree" fetch --all
-    git --git-dir="$repo_dir" --work-tree="$work_tree" reset --hard origin/master
-fi
 
-# Указываем директорию для резервных копий
-backup_dir="$HOME/backup_$(date +%Y%m%d_%H%M%S)"
-mkdir -p "$backup_dir"
+# Остановка при ошибке
+set -e
 
+# Ввод имени пользователя
+echo "Введите имя нового пользователя:"
+read new_user
 
-# Получаем список файлов, которые будут изменены или удалены командой checkout
-changed_files=$(git --git-dir="$repo_dir" --work-tree="$work_tree" status --porcelain | grep -E '^(M| D)' | cut -c4-)
+# Ввод пароля пользователя
+echo "Введите пароль для нового пользователя:"
+read -s user_pass
+echo
 
-# Перебираем измененные файлы и создаем резервные копии
-echo "$changed_files" | while IFS= read -r file; do
-    if [ -f "$work_tree/$file" ]; then
-        # Создаем директории в backup_dir, если необходимо
-        mkdir -p "$backup_dir/$(dirname "$file")"
-        # Копируем файл в директорию резервных копий
-        cp "$work_tree/$file" "$backup_dir/$file"
-        echo "Резервная копия создана для: $file"
-    fi
-done
-echo good
-# Теперь можно безопасно выполнить checkout
-git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
+# Ввод пароля root
+echo "Введите пароль для пользователя root:"
+read -s root_pass
+echo
 
-# Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip kitty; sudo systemctl enable NetworkManager; sudo systemctl enable lightdm.service
+# Обновление системного часа
+timedatectl set-ntp true
 
+# Установка основной системы
+pacstrap /mnt base linux linux-firmware nano intel-ucode amd-ucode networkmanager
 
+# Настройка fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
-if ! command -v yay &> /dev/null
-then
-    echo "yay не найден, начинаем установку..."
-    git clone https://aur.archlinux.org/yay.git ~/yay
-    cd ~/yay && makepkg -si --noconfirm --needed
-    cd ~
-    rm -rf ~/yay
-else
-    echo "yay уже установлен."
-fi
+# Вход в chroot и настройка системы
+arch-chroot /mnt /bin/bash <<EOF
 
+# Настройка часового пояса
+ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+hwclock --systohc
 
-TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
+# Локализация
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+echo "ru_RU.UTF-8 UTF-8" >> /etc/locale.gen
+locale-gen
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "KEYMAP=ru" > /etc/vconsole.conf
+echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
-# Проверяем, существует ли файл конфигурации
-if [ ! -f "$TOUCHPAD_CONFIG" ]; then
-    echo "Файл конфигурации тачпада не найден. Создаем новый."
-    # Создание директории, если она еще не существует
-    sudo mkdir -p /etc/X11/xorg.conf.d/;  sudo touch "$TOUCHPAD_CONFIG"
-    # Создание нового файла конфигурации
-fi
+# Настройка сети
+echo "myarch" > /etc/hostname
+echo "127.0.0.1 localhost" >> /etc/hosts
+echo "::1       localhost" >> /etc/hosts
+echo "127.0.1.1 myarch.localdomain myarch" >> /etc/hosts
 
-# Добавление настроек в файл конфигурации
-echo 'Section "InputClass"
-        Identifier "libinput touchpad catchall"
-        MatchIsTouchpad "on"
-        Driver "libinput"
-        Option "Tapping" "on"
-        Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
-EndSection' | sudo tee "$TOUCHPAD_CONFIG"
+# Создание инициализации initramfs
+mkinitcpio -P
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Установка загрузчика
+pacman -S grub efibootmgr --noconfirm
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
-# Проверка и клонирование zsh плагинов
-ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
-if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
-fi
-if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
-fi
-sudo pip install thefuck
-source ~/.zshrc
+# Установка пароля root
+echo "root:$root_pass" | chpasswd
+
+# Установка KDE Plasma и системных инструментов
+pacman -S xorg plasma plasma-wayland-session sddm konsole dolphin kate plasma-nm plasma-pa ark gwenview spectacle sudo --noconfirm
+systemctl enable sddm
+systemctl enable NetworkManager
+
+# Установка драйверов NVIDIA
+pacman -S nvidia nvidia-utils nvidia-settings --noconfirm
+
+# Установка Pipewire и настройка звука
+pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack pavucontrol --noconfirm
+systemctl enable pipewire pipewire-pulse
+
+# Создание нового пользователя
+useradd -m -G wheel,audio,video,network,storage -s /bin/bash $new_user
+echo "$new_user:$user_pass" | chpasswd
+
+# Настройка sudo для группы wheel
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+
+# Настройка переключения раскладок
+localectl set-x11-keymap ru,us pc104 , grp:ctrl_shift_toggle
+
+EOF
+
+# Сообщение о завершении установки и перезагрузка
+echo "Установка завершена. Система будет автоматически перезагружена через 5 секунд..."
+sleep 5
+reboot
