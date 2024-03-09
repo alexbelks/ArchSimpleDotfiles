@@ -1,6 +1,6 @@
 
 # Установка KDE Plasma и системных инструментов
-sudo pacman -Syu --noconfirm --needed  xorg xorg-xinit xorg-server base-devel plasma plasma-wayland-session sddm konsole dolphin kate plasma-nm plasma-pa ark gwenview spectacle neovim nano --noconfirm
+sudo pacman -Syu --noconfirm --needed  xorg xorg-xinit xorg-server base-devel plasma  sddm konsole dolphin kate plasma-nm plasma-pa ark gwenview spectacle neovim nano --noconfirm
 sudo systemctl enable sddm
 
 # Установка Pipewire и настройка звука
