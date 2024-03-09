@@ -80,5 +80,5 @@ fi
 if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
 fi
-pip install thefuck
+sudo pip install thefuck
 source ~/.zshrc
