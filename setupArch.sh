@@ -54,9 +54,9 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 # Настройка GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
-curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh > /home/#USERNAME/SetupDotfiles.sh
+curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh > /home/$USERNAME/SetupDotfiles.sh
 chmod +x /home/$USERNAME/SetupDotfiles.sh
-curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/SetupKDEDotfiles.sh > /home/#USERNAME/SetupKDEDotfiles.sh
+curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/SetupKDEDotfiles.sh > /home/$USERNAME/SetupKDEDotfiles.sh
 chmod +x /home/$USERNAME/SetupKDEDotfiles.sh
 EOF
 reboot
