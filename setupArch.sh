@@ -45,7 +45,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
 
-pacman -Syu --noconfirm --needed nvidia grub efibootmgr sudo
+pacman -Syu --noconfirm --needed nvidia nvidia-utils nvidia-settings grub efibootmgr sudo
 
 # Настройка sudo
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
