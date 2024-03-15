@@ -35,7 +35,8 @@ echo good
 git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 lightdm lightdm-gtk-greeter xclip zsh feh fzf python-pip kitty pipx; sudo systemctl enable NetworkManager; sudo systemctl enable lightdm.service
+sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty pipx; 
+sudo systemctl enable NetworkManager;
 
 
 
