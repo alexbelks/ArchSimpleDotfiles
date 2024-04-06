@@ -45,7 +45,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
 
-pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo
+pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo nvim
 systemctl enable NetworkManager
 
 # Настройка sudo
