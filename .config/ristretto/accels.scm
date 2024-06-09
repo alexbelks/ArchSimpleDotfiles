@@ -69,4 +69,5 @@
 ; (gtk_accel_path "<Actions>/RsttoWindow/forward" "space")
 ; (gtk_accel_path "<Actions>/RsttoWindow/edit-menu" "")
 ; (gtk_accel_path "<Actions>/RsttoWindow/pos-right" "")
+; (gtk_accel_path "<Actions>/RsttoWindow/unfullscreen" "")
 ; (gtk_accel_path "<Actions>/RsttoWindow/size-normal" "")

@@ -25,11 +25,16 @@
         <value type="int" value="12"/>
         <value type="int" value="13"/>
         <value type="int" value="14"/>
+        <value type="int" value="7"/>
+        <value type="int" value="15"/>
       </property>
     </property>
   </property>
   <property name="plugins" type="empty">
-    <property name="plugin-1" type="string" value="applicationsmenu"/>
+    <property name="plugin-1" type="string" value="applicationsmenu">
+      <property name="custom-menu" type="bool" value="false"/>
+      <property name="custom-menu-file" type="string" value="/home/alexbelks/Downloads/Telegram Desktop/шаблонGood.docx"/>
+    </property>
     <property name="plugin-2" type="string" value="tasklist">
       <property name="grouping" type="uint" value="1"/>
     </property>
@@ -47,15 +52,22 @@
     <property name="plugin-6" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
       <property name="known-items" type="array">
+        <value type="string" value="blueman"/>
+        <value type="string" value="vlc"/>
+        <value type="string" value="steam"/>
+        <value type="string" value="obs"/>
         <value type="string" value="qBittorrent"/>
         <value type="string" value="TelegramDesktop"/>
         <value type="string" value="chrome_status_icon_1"/>
+      </property>
+      <property name="known-legacy-items" type="array">
+        <value type="string" value="parole"/>
       </property>
     </property>
     <property name="plugin-8" type="string" value="pulseaudio">
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
       <property name="show-notifications" type="bool" value="true"/>
-      <property name="known-players" type="string" value="Yandex Browser"/>
+      <property name="known-players" type="string" value="discord-screenaudio;parole;vlc;Yandex Browser"/>
     </property>
     <property name="plugin-9" type="string" value="power-manager-plugin"/>
     <property name="plugin-10" type="string" value="notification-plugin"/>
@@ -67,5 +79,12 @@
       <property name="style" type="uint" value="0"/>
     </property>
     <property name="plugin-14" type="string" value="actions"/>
+    <property name="plugin-7" type="string" value="wavelan"/>
+    <property name="plugin-15" type="string" value="xkb">
+      <property name="group-policy" type="uint" value="0"/>
+      <property name="display-type" type="uint" value="2"/>
+      <property name="display-name" type="uint" value="1"/>
+      <property name="show-notifications" type="bool" value="false"/>
+    </property>
   </property>
 </channel>

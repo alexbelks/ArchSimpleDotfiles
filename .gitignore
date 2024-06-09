@@ -21,6 +21,8 @@
 !.config/ristretto/
 !.config/ristretto/**
 
+!.config/Code\ -\ OSS/User/profiles/**
+
 !.xinitrc
 !.zshrc
 

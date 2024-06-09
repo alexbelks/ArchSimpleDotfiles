@@ -1,0 +1,69 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+shift+a",
+        "command": "editor.action.selectAll",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+m",
+        "command": "actions.find",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "alt+d",
+        "command": "editor.action.addSelectionToNextFindMatch",
+        "when": "editorFocus"
+    },
+    {
+        "key": "ctrl+alt+k",
+        "command": "editor.action.insertCursorAbove",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+alt+j",
+        "command": "editor.action.insertCursorBelow",
+        "when": "editorTextFocus"
+    },
+    
+    // {
+    //     "key": "alt+h",
+    //     "command": "cursorLeft",
+    //     "when": "editortextfocus && vim.active && vim.mode == 'Insert "
+    // },
+    // {
+    //     "key": "alt+j",
+    //     "command": "cursorDown",
+    //     "when": "editortextfocus && vim.active && vim.mode == 'Insert'"
+    // },
+    // {
+    //     "key": "alt+k",
+    //     "command": "cursorUp",
+    //     "when": "editortextfocus && vim.active && vim.mode == 'Insert'"
+    // },
+    // {
+    //     "key": "alt+l",
+    //     "command": "cursorRight",
+    //     "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+    // },
+    {
+        "key": "alt+j",
+        "command": "editor.action.moveLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly && vim.mode != 'Insert'"
+    },
+    {
+        "key": "alt+k",
+        "command": "editor.action.moveLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly&& vim.mode != 'Insert'"
+    },
+    {
+        "key": "escape",
+        "command": "cancelSelection",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Normal' && !editorHasMultipleSelections"
+    }
+]

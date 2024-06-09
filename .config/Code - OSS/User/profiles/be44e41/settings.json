@@ -1,0 +1,67 @@
+{
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (xelatex)",
+      "tools": [
+        "latexmk-xelatex",
+        "move-pdf"
+      ]
+    },
+    {
+      "name": "latexmk (pdflatex)",
+      "tools": [
+        "latexmk-pdflatex",
+        "move-pdf"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-xelatex",
+      "command": "latexmk",
+      "args": [
+        "-xelatex",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-output-directory=build",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "latexmk-pdflatex",
+      "command": "latexmk",
+      "args": [
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-output-directory=build",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "move-pdf",
+      "command": "sh",
+      "args": [
+        "-c",
+        "mv build/%DOCFILE%.pdf %OUTDIR%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "lastUsed",
+  "cSpell.language": "en,ru",
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.outDir": ".",
+  "vim.handleKeys": {
+    "<C-c>": false,
+    "<C-v>": false,
+    "<C-x>": false
+  },
+  "vim.autoSwitchInputMethod.enable": true,
+  "vim.autoSwitchInputMethod.defaultIM": "us",
+  "vim.autoSwitchInputMethod.switchIMCmd": "/bin/xkb-switch -s {im}",
+  "vim.autoSwitchInputMethod.obtainIMCmd": "/bin/xkb-switch",
+  "git.autofetch": true
+}
+    
