@@ -2,7 +2,7 @@
 ### Minimalistic and simple dotfiles for my i3wm + xfce4 setup.
 #### **Arch installation with Russian layout**
 ```bash
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/b196ac58a37a0bcb90c22d8e31b66d6228800b71/setupArch.sh)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupArch.sh)"
 ```
  
  
