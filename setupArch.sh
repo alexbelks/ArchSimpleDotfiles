@@ -31,6 +31,17 @@ EOF
 # Вход в chroot
 arch-chroot /mnt /bin/bash <<EOF
 
+systemctl stop ModemManager
+systemctl disable ModemManager
+systemctl stop cups
+systemctl disable cups
+systemctl stop avahi-daemon
+systemctl disable avahi-daemon
+systemctl stop sshd
+systemctl disable sshd
+
+
+
 mkdir /etc/modprobe.d
 echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 
@@ -58,15 +69,58 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
 
-pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo nvim
+pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo nvim ufw apparmor
+
+# фаервол
+ufw enable
+ufw default deny incoming
+ufw default allow outgoing
+
+# wНастройка GRUB
+grwub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+
+# Включение AppArmor в GRUB
+echo "Включаю AppArmor в конфигурации GRUB..."
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& apparmor=1 security=apparmor/' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# Включение и запуск AppArmor сервиса
+echo "Включаю и запускаю сервис AppArmor..."
+systemctl enable apparmor
+systemctl start apparmor
+
+# Настройка профиля AppArmor для NetworkManager
+echo "Настраиваю профиль AppArmor для NetworkManager..."
+cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EOF
+/usr/sbin/NetworkManager {
+    /etc/** r,
+    /usr/sbin/NetworkManager mr,
+    /var/lib/NetworkManager/** rw,
+    /run/NetworkManager/** rw,
+    /home/** r,
+    network inet dgram,
+    network inet stream,
+    deny /bin/** mrwklx,
+    deny /sbin/** mrwklx,
+    deny /usr/bin/** mrwklx,
+    deny /usr/sbin/** mrwklx,
+}
+EOF
+
+# Применение профиля AppArmor
+echo "Применяю профиль AppArmor для NetworkManager..."
+sudo apparmor_parser -r /etc/apparmor.d/usr.sbin.NetworkManager
+sudo aa-enforce /etc/apparmor.d/usr.sbin.NetworkManager
+
+echo "Установка и настройка AppArmor завершены."
+
+
 systemctl enable NetworkManager
 
 # Настройка sudo
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-# Настройка GRUB
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
+
 curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh > /home/$USERNAME/SetupDotfiles.sh
 chmod +x /home/$USERNAME/SetupDotfiles.sh
 curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/SetupKDEDotfiles.sh > /home/$USERNAME/SetupKDEDotfiles.sh
