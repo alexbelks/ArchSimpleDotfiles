@@ -1,4 +1,10 @@
 #!/bin/bash
+
+
+
+
+
+
 # Запрос информации от пользователя
 echo "Enter the computer name:"
 read HOSTNAME
@@ -76,12 +82,9 @@ echo "$HOSTNAME" > /etc/hostname
 
 pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo neovim ufw apparmor ntfs-3g
 
-sudo modprobe ip6_tables
 
-# фаервол
-ufw enable
-ufw default deny incoming
-ufw default allow outgoing
+
+
 
 # wНастройка GRUB
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
@@ -94,7 +97,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Включение и запуск AppArmor сервиса
 echo "Включаю и запускаю сервис AppArmor..."
 systemctl enable apparmor
-systemctl start apparmor
+
 
 # Настройка профиля AppArmor для NetworkManager
 echo "Настраиваю профиль AppArmor для NetworkManager..."
@@ -109,12 +112,84 @@ cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EAF
 }
 EAF
 
+# Имя и путь создаваемого скрипта
+SCRIPT_NAME="auto_script.sh"
+SCRIPT_PATH="/tmp/$SCRIPT_NAME"
+
+# Имя и путь для systemd сервиса
+SERVICE_NAME="auto_script.service"
+SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
+
+# Создание скрипта
+cat << 'EAF' > $SCRIPT_PATH
+#!/bin/bash
+
+echo "Скрипт начал работу..."
+systemctl stop ModemManager
+systemctl disable ModemManager
+systemctl stop cups
+systemctl disable cups
+systemctl stop avahi-daemon
+systemctl disable avahi-daemon
+systemctl stop sshd
+systemctl disable sshd
+
+# фаервол
+ufw enable
+ufw default deny incoming
+ufw default allow outgoing
+
 # Применение профиля AppArmor
 echo "Применяю профиль AppArmor для NetworkManager..."
 apparmor_parser -r /etc/apparmor.d/usr.sbin.NetworkManager
 aa-enforce /etc/apparmor.d/usr.sbin.NetworkManager
 
 echo "Установка и настройка AppArmor завершены."
+
+
+# Делаем что-то полезное
+sleep 5  # Симуляция работы
+
+echo "Скрипт завершен."
+
+# Отключение сервиса из автозапуска
+sudo systemctl disable auto_script.service
+
+# Удаление самого скрипта
+rm -- "$0"
+
+# Удаление systemd unit файла
+sudo rm /etc/systemd/system/auto_script.service
+
+# Перезагрузка systemd для применения изменений
+sudo systemctl daemon-reload
+EAF
+
+# Делаем созданный скрипт исполняемым
+chmod +x $SCRIPT_PATH
+
+# Создание unit-файла для systemd
+cat << EAF | sudo tee $SERVICE_PATH > /dev/null
+[Unit]
+Description=Auto-generated Script
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=$SCRIPT_PATH
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+EAF
+
+# Перезагрузка systemd для учета нового сервиса
+sudo systemctl daemon-reload
+
+# Включение сервиса в автозапуск
+sudo systemctl enable $SERVICE_NAME
+
+
 
 
 systemctl enable NetworkManager
