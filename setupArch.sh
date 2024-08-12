@@ -24,7 +24,7 @@ cat << EOF > /mnt/etc/fstab
 LABEL=D  /mnt/D ntfs-3g defaults 0 0
 LABEL=C /mnt/C ntfs-3g defaults 0 0
 LABEL=E  /mnt/E ntfs-3g defaults 0 0
-LABEL=R  /mnt/C ntfs-3g defaults 0 0
+LABEL=R  /mnt/R ntfs-3g defaults 0 0
 LABEL=DATA /mnt/DATA ext4 defaults 0 2
 EOF
 
