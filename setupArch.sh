@@ -12,8 +12,21 @@ read -s ROOT_PASSWORD
 # Установка основных пакетов системы
 pacstrap /mnt base linux linux-firmware --needed
 
+#монтирование разделов
+mount -L LINUX /mnt
+mount --mkdir -L HOME /mnt/home
+mount --mkdir -L EFI /mnt/boot/efi
+
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
+
+cat << EOF > /mnt/etc/fstab
+LABEL=D --mkdir /mnt/D ntfs-3g defaults 0 0
+LABEL=C --mkdir /mnt/C ntfs-3g defaults 0 0
+LABEL=E --mkdir /mnt/E ntfs-3g defaults 0 0
+LABEL=R --mkdir /mnt/C ntfs-3g defaults 0 0
+LABEL=DATA /mnt/DATA ext4 defaults 0 2
+EOF
 
 # Вход в chroot
 arch-chroot /mnt /bin/bash <<EOF
