@@ -96,7 +96,7 @@ systemctl start apparmor
 
 # Настройка профиля AppArmor для NetworkManager
 echo "Настраиваю профиль AppArmor для NetworkManager..."
-cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EOF
+cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EAF
 /usr/sbin/NetworkManager {
     /etc/** r,
     /usr/sbin/NetworkManager mr,
@@ -105,7 +105,7 @@ cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EOF
     network inet dgram,
     network inet stream,
 }
-EOF
+EAF
 
 # Применение профиля AppArmor
 echo "Применяю профиль AppArmor для NetworkManager..."
