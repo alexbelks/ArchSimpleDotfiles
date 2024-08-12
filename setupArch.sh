@@ -97,13 +97,8 @@ cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EOF
     /usr/sbin/NetworkManager mr,
     /var/lib/NetworkManager/** rw,
     /run/NetworkManager/** rw,
-    /home/** r,
     network inet dgram,
     network inet stream,
-    deny /bin/** mrwklx,
-    deny /sbin/** mrwklx,
-    deny /usr/bin/** mrwklx,
-    deny /usr/sbin/** mrwklx,
 }
 EOF
 
