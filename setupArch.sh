@@ -21,10 +21,10 @@ mount --mkdir -L EFI /mnt/boot/efi
 genfstab -U /mnt >> /mnt/etc/fstab
 
 cat << EOF > /mnt/etc/fstab
-LABEL=D --mkdir /mnt/D ntfs-3g defaults 0 0
-LABEL=C --mkdir /mnt/C ntfs-3g defaults 0 0
-LABEL=E --mkdir /mnt/E ntfs-3g defaults 0 0
-LABEL=R --mkdir /mnt/C ntfs-3g defaults 0 0
+LABEL=D  /mnt/D ntfs-3g defaults 0 0
+LABEL=C /mnt/C ntfs-3g defaults 0 0
+LABEL=E  /mnt/E ntfs-3g defaults 0 0
+LABEL=R  /mnt/C ntfs-3g defaults 0 0
 LABEL=DATA /mnt/DATA ext4 defaults 0 2
 EOF
 
