@@ -10,10 +10,13 @@ echo "Enter the password for root:"
 read -s ROOT_PASSWORD
 
 
+
 #монтирование разделов
 mount -L LINUX /mnt
 mount --mkdir -L HOME /mnt/home
 mount --mkdir -L EFI /mnt/boot/efi
+
+lsblk
 
 # Установка основных пакетов системы
 pacstrap /mnt base linux linux-firmware --needed
