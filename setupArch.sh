@@ -73,8 +73,10 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
-pacman -Syu --noconfirm
+
 pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo neovim ufw apparmor
+
+sudo modprobe ip6_tables
 
 # фаервол
 ufw enable
