@@ -82,7 +82,7 @@ ufw default deny incoming
 ufw default allow outgoing
 
 # wНастройка GRUB
-grwub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 
 # Включение AppArmor в GRUB
 echo "Включаю AppArmor в конфигурации GRUB..."
