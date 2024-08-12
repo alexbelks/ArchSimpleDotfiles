@@ -109,8 +109,8 @@ EOF
 
 # Применение профиля AppArmor
 echo "Применяю профиль AppArmor для NetworkManager..."
-sudo apparmor_parser -r /etc/apparmor.d/usr.sbin.NetworkManager
-sudo aa-enforce /etc/apparmor.d/usr.sbin.NetworkManager
+apparmor_parser -r /etc/apparmor.d/usr.sbin.NetworkManager
+aa-enforce /etc/apparmor.d/usr.sbin.NetworkManager
 
 echo "Установка и настройка AppArmor завершены."
 
