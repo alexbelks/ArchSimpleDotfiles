@@ -126,9 +126,9 @@ chmod +x /home/$USERNAME/SetupDotfiles.sh
 curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/SetupKDEDotfiles.sh > /home/$USERNAME/SetupKDEDotfiles.sh
 chmod +x /home/$USERNAME/SetupKDEDotfiles.sh
 
-
+EOF
 umount  /mnt/home
 umount  /mnt/boot/efi
 umount  /mnt
-EOF
+
 
