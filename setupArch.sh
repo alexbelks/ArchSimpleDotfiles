@@ -73,7 +73,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
-
+pacman -Syu --noconfirm
 pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo nvim ufw apparmor
 
 # фаервол
