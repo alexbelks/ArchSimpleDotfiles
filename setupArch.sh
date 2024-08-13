@@ -153,23 +153,23 @@ sleep 5  # Симуляция работы
 echo "Скрипт завершен."
 
 # Отключение сервиса из автозапуска
-sudo systemctl disable auto_script.service
+systemctl disable auto_script.service
 
 # Удаление самого скрипта
 rm -- "$0"
 
 # Удаление systemd unit файла
-sudo rm /etc/systemd/system/auto_script.service
+rm /etc/systemd/system/auto_script.service
 
 # Перезагрузка systemd для применения изменений
-sudo systemctl daemon-reload
+systemctl daemon-reload
 EAF
 
 # Делаем созданный скрипт исполняемым
 chmod +x $SCRIPT_PATH
 
 # Создание unit-файла для systemd
-cat << EAF | sudo tee $SERVICE_PATH > /dev/null
+cat << EAF > $SERVICE_PATH
 [Unit]
 Description=Auto-generated Script
 After=network.target
@@ -184,10 +184,10 @@ WantedBy=multi-user.target
 EAF
 
 # Перезагрузка systemd для учета нового сервиса
-sudo systemctl daemon-reload
+systemctl daemon-reload
 
 # Включение сервиса в автозапуск
-sudo systemctl enable $SERVICE_NAME
+systemctl enable $SERVICE_NAME
 
 
 
