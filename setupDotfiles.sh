@@ -130,20 +130,6 @@ git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx; 
 
 
-
-
-if ! command -v yay &> /dev/null
-then
-    echo "yay не найден, начинаем установку..."
-    git clone https://aur.archlinux.org/yay.git ~/yay
-    cd ~/yay && makepkg -si --noconfirm --needed
-    cd ~
-    rm -rf ~/yay
-else
-    echo "yay уже установлен."
-fi
-
-
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 
 # Проверяем, существует ли файл конфигурации
@@ -163,8 +149,21 @@ echo 'Section "InputClass"
         Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
 EndSection' | tee "$TOUCHPAD_CONFIG"
 
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+EAF
+
+if ! command -v yay &> /dev/null
+then
+    echo "yay не найден, начинаем установку..."
+    git clone https://aur.archlinux.org/yay.git ~/yay
+    cd ~/yay && makepkg -si --noconfirm --needed
+    cd ~
+    rm -rf ~/yay
+else
+    echo "yay уже установлен."
+fi
+
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # Проверка и клонирование zsh плагинов
 ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ]; then
@@ -175,4 +174,4 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 pipx install thefuck
 source ~/.zshrc
-EAF
+
