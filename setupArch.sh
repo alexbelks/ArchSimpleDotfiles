@@ -26,7 +26,7 @@ pacstrap /mnt base linux linux-firmware --needed
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
-cat << EOF > /mnt/etc/fstab
+cat << EOF >> /mnt/etc/fstab
 LABEL=D  /mnt/D ntfs-3g defaults 0 0
 LABEL=C /mnt/C ntfs-3g defaults 0 0
 LABEL=E  /mnt/E ntfs-3g defaults 0 0
@@ -116,7 +116,6 @@ SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
 
 cat << EAF > $SCRIPT_PATH
 #!/bin/bash
-
 echo "Скрипт начал работу..."
 systemctl stop ModemManager
 systemctl disable ModemManager
