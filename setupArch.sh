@@ -75,7 +75,7 @@ echo "root:$ROOT_PASSWORD" | chpasswd
 # Имя хоста
 echo "$HOSTNAME" > /etc/hostname
 
-pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo neovim ufw apparmor ntfs-3g
+pacman -Syu --noconfirm --needed grub efibootmgr networkmanager sudo neovim ufw apparmor ntfs-3g less
 
 
 
@@ -144,7 +144,7 @@ echo "Скрипт завершен."
 
 # Удаление самого скрипта
 rm -- "$0"
-
+rm /etc/rc.d/rc.local
 EAF
 
 chmod +x /tmp/auto_script.sh
