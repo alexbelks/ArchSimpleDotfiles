@@ -92,6 +92,12 @@ cat << EOF > /etc/apparmor.d/usr.bin.Xorg
 
 EOF
 
+apparmor_parser -r /etc/apparmor.d/usr.bin.pulseaudio
+aa-enforce /etc/apparmor.d/usrsbin.pulseaudio
+
+apparmor_parser -r /etc/apparmor.d/usr.bin.Xorg
+aa-enforce /etc/apparmor.d/usr.sbin.Xorg
+
 pacman -Syu --noconfirm --needed git
 repo_dir="$HOME/.cfg"
 work_tree="$HOME"
