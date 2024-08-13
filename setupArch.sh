@@ -144,14 +144,12 @@ echo "Скрипт завершен."
 
 # Удаление самого скрипта
 rm -- "$0"
-echo "Удаление скрипта из автозапуска..."
-    crontab -l | grep -v "@reboot $SCRIPT_PATH" | crontab -
 
 EAF
 
 chmod +x /tmp/auto_script.sh
 
-(crontab -l 2>/dev/null; echo "@reboot /tmp/auto_script.sh") | crontab -
+echo /tmp/auto_script.sh >>/etc/rc.d/rc.local 
 
 # Делаем созданный скрипт исполняемым
 
