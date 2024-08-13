@@ -156,7 +156,7 @@ EAF
 chmod +x /tmp/auto_script.sh
 
 # Создание unit-файла для systemd
-cat  > /etc/systemd/system/auto_script.service >> EAF
+cat  > /etc/systemd/system/auto_script.service << EAF
 [Unit]
 Description=Auto-generated Script
 After=network.target
