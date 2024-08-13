@@ -1,10 +1,5 @@
 #!/bin/bash
 
-
-
-
-
-
 # Запрос информации от пользователя
 echo "Enter the computer name:"
 read HOSTNAME
