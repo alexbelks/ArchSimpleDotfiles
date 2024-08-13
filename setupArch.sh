@@ -92,7 +92,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Включение и запуск AppArmor сервиса
 echo "Включаю и запускаю сервис AppArmor..."
 systemctl enable apparmor
-
+systemctl enable ufw
 
 # Настройка профиля AppArmor для NetworkManager
 echo "Настраиваю профиль AppArmor для NetworkManager..."
