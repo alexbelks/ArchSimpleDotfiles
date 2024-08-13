@@ -1,6 +1,98 @@
-
 #!/bin/bash
-sudo pacman -Syu --noconfirm --needed git
+
+sudo sh << EAF
+
+cat << EOF /etc/apparmor.d/usr.bin.pulseaudio
+#include <tunables/global>
+
+/usr/bin/pulseaudio {
+  # Права доступа к основным системным файлам и директориям
+  /bin/* ixr,
+  /usr/bin/* ixr,
+  /lib/* ixr,
+  /usr/lib/* ixr,
+  /lib64/* ixr,
+  /usr/lib64/* ixr,
+  
+  # Ограничение доступа к конфигурационным файлам PulseAudio
+  /etc/pulse/** r,
+  /var/lib/pulse/** rwk,
+  /var/run/pulse/** rwk,
+
+  # Доступ к аудиоустройствам
+  /dev/snd/ r,
+  /dev/snd/* rw,
+
+  # Доступ к необходимым IPC и сетевым ресурсам
+  /dev/shm/pulse-shm-* rw,
+  /run/user/*/pulse/ rw,
+
+  # Сетевая активность PulseAudio
+  network inet stream,
+  network inet dgram,
+
+  # Запрещение всего остального
+  deny / rw,
+  deny /home/** rw,
+
+  # Разрешение записи логов
+  capability sys_ptrace,
+  capability sys_admin,
+
+  # Запрет на прямой доступ к железу
+  deny /dev/mem rw,
+  deny /dev/kmem rw,
+}
+EOF
+
+cat << EOF > /etc/apparmor.d/usr.bin.Xorg
+#include <tunables/global>
+
+/usr/bin/Xorg {
+  # Права доступа к системным библиотекам и исполняемым файлам
+  /bin/* ixr,
+  /usr/bin/* ixr,
+  /lib/* ixr,
+  /usr/lib/* ixr,
+  /lib64/* ixr,
+  /usr/lib64/* ixr,
+
+  # Доступ к конфигурационным файлам Xorg
+  /etc/X11/** r,
+  /usr/share/X11/** r,
+
+  # Доступ к видеоустройствам
+  /dev/dri/* rw,
+  /dev/input/* rw,
+
+  # Доступ к временным файлам
+  /tmp/** rw,
+  /var/tmp/** rw,
+
+  # Доступ к необходимым IPC и сетевым ресурсам
+  /dev/shm/** rw,
+
+  # Сетевая активность Xorg
+  network inet stream,
+  network inet dgram,
+
+  # Запрещение всего остального
+  deny / rw,
+  deny /home/** rw,
+
+  # Разрешение записи логов
+  capability sys_ptrace,
+  capability sys_admin,
+
+  # Запрет на прямой доступ к железу
+  deny /dev/mem rw,
+  deny /dev/kmem rw,
+}
+
+
+EOF
+
+pacman -Syu --noconfirm --needed git
 repo_dir="$HOME/.cfg"
 work_tree="$HOME"
 # Проверка на существование репозитория и клонирование, если не существует
@@ -35,7 +127,7 @@ echo good
 git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
-sudo pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx; 
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx; 
 
 
 
@@ -58,7 +150,7 @@ TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 if [ ! -f "$TOUCHPAD_CONFIG" ]; then
     echo "Файл конфигурации тачпада не найден. Создаем новый."
     # Создание директории, если она еще не существует
-    sudo mkdir -p /etc/X11/xorg.conf.d/;  sudo touch "$TOUCHPAD_CONFIG"
+    mkdir -p /etc/X11/xorg.conf.d/;  touch "$TOUCHPAD_CONFIG"
     # Создание нового файла конфигурации
 fi
 
@@ -69,7 +161,7 @@ echo 'Section "InputClass"
         Driver "libinput"
         Option "Tapping" "on"
         Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
-EndSection' | sudo tee "$TOUCHPAD_CONFIG"
+EndSection' | tee "$TOUCHPAD_CONFIG"
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -81,6 +173,6 @@ fi
 if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
 fi
-sudo pipx install thefuck
+pipx install thefuck
 source ~/.zshrc
-
+EAF
