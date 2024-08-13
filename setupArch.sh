@@ -120,7 +120,7 @@ SCRIPT_PATH="/tmp/$SCRIPT_NAME"
 SERVICE_NAME="auto_script.service"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
 
-# Создание скрипта
+
 cat << EAF > $SCRIPT_PATH
 #!/bin/bash
 
