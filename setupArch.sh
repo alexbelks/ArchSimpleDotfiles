@@ -108,11 +108,6 @@ cat > /etc/apparmor.d/usr.sbin.NetworkManager <<EAF
 EAF
 
 # Имя и путь создаваемого скрипта
-SCRIPT_NAME="auto_script.sh"
-SCRIPT_PATH="/tmp/$SCRIPT_NAME"
-# Имя и путь для systemd сервиса
-SERVICE_NAME="auto_script.service"
-SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
 
 cat > /tmp/auto_script.sh << EAF
 #!/bin/bash
@@ -158,7 +153,7 @@ systemctl daemon-reload
 EAF
 
 # Делаем созданный скрипт исполняемым
-chmod +x ./tmp/auto_script.sh
+chmod +x /tmp/auto_script.sh
 
 # Создание unit-файла для systemd
 cat  > /etc/systemd/system/auto_script.service >> EAF
