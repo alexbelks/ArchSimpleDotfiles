@@ -128,7 +128,7 @@ git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
 pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx; 
-
+systemctl enable pulseaudio
 
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 
