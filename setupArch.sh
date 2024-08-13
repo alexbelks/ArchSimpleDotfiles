@@ -139,43 +139,21 @@ sleep 5  # Симуляция работы
 
 echo "Скрипт завершен."
 
-# Отключение сервиса из автозапуска
-systemctl disable auto_script.service
+
+
 
 # Удаление самого скрипта
 rm -- "$0"
+echo "Удаление скрипта из автозапуска..."
+    crontab -l | grep -v "@reboot $SCRIPT_PATH" | crontab -
 
-# Удаление systemd unit файла
-rm /etc/systemd/system/auto_script.service
-
-# Перезагрузка systemd для применения изменений
-systemctl daemon-reload
 EAF
 
-# Делаем созданный скрипт исполняемым
 chmod +x /tmp/auto_script.sh
 
-# Создание unit-файла для systemd
-cat  > /etc/systemd/system/auto_script.service << EAF
-[Unit]
-Description=Auto-generated Script
-After=network.target
+(crontab -l 2>/dev/null; echo "@reboot /tmp/auto_script.sh") | crontab -
 
-[Service]
-Type=simple
-ExecStart=/tmp/auto_script.sh
-Restart=no
-
-[Install]
-WantedBy=multi-user.target
-EAF
-
-# Перезагрузка systemd для учета нового сервиса
-systemctl daemon-reload
-
-# Включение сервиса в автозапуск
-systemctl enable auto_script.service
-
+# Делаем созданный скрипт исполняемым
 
 
 
