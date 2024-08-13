@@ -114,7 +114,7 @@ SCRIPT_PATH="/tmp/$SCRIPT_NAME"
 SERVICE_NAME="auto_script.service"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
 
-cat << EAF > $SCRIPT_PATH
+cat > $SCRIPT_PATH << EAF
 #!/bin/bash
 echo "Скрипт начал работу..."
 systemctl stop ModemManager
@@ -161,7 +161,7 @@ EAF
 chmod +x $SCRIPT_PATH
 
 # Создание unit-файла для systemd
-cat << EAF > $SERVICE_PATH
+cat  > $SERVICE_PATH << EAF
 [Unit]
 Description=Auto-generated Script
 After=network.target
