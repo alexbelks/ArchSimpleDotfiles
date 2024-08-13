@@ -149,7 +149,7 @@ EAF
 
 chmod +x /tmp/auto_script.sh
 
-echo /tmp/auto_script.sh >>/etc/rc.d/rc.local 
+echo /tmp/auto_script.sh > /etc/rc.d/rc.local 
 
 # Делаем созданный скрипт исполняемым
 
