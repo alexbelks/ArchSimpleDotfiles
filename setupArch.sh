@@ -158,7 +158,7 @@ systemctl daemon-reload
 EAF
 
 # Делаем созданный скрипт исполняемым
-chmod +x $SCRIPT_PATH
+chmod +x /tmp/auto_script.sh
 
 # Создание unit-файла для systemd
 cat  > /etc/systemd/system/auto_script.service >> EAF
@@ -179,7 +179,7 @@ EAF
 systemctl daemon-reload
 
 # Включение сервиса в автозапуск
-systemctl enable $SERVICE_NAME
+systemctl enable auto_script.service
 
 
 
