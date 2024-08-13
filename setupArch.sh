@@ -115,11 +115,9 @@ EAF
 # Имя и путь создаваемого скрипта
 SCRIPT_NAME="auto_script.sh"
 SCRIPT_PATH="/tmp/$SCRIPT_NAME"
-
 # Имя и путь для systemd сервиса
 SERVICE_NAME="auto_script.service"
 SERVICE_PATH="/etc/systemd/system/$SERVICE_NAME"
-
 
 cat << EAF > $SCRIPT_PATH
 #!/bin/bash
