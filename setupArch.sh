@@ -162,9 +162,9 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 
 curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupDotfiles.sh > /home/$USERNAME/SetupDotfiles.sh
-chmod +x /home/$USERNAME/SetupDotfiles.sh
-curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/SetupKDEDotfiles.sh > /home/$USERNAME/SetupKDEDotfiles.sh
-chmod +x /home/$USERNAME/SetupKDEDotfiles.sh
+chmod +x /home/$USERNAME/setupDotfiles.sh
+curl -fsSL https://raw.githubusercontent.com/alexbelks/ArchSimpleDotfiles/master/setupKDEDotfiles.sh > /home/$USERNAME/SetupKDEDotfiles.sh
+chmod +x /home/$USERNAME/setupKDEDotfiles.sh
 
 EOF
 umount  /mnt/home
