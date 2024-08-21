@@ -98,6 +98,12 @@ EOF
 -w /etc/apparmor.d/ -p wa -k apparmor 
 -w /var/log/syslog -p wa -k apparmor
 
+apparmor_parser -r /etc/apparmor.d/usr.bin.pulseaudio
+aa-enforce /etc/apparmor.d/usrsbin.pulseaudio
+
+apparmor_parser -r /etc/apparmor.d/usr.bin.Xorg
+aa-enforce /etc/apparmor.d/usr.sbin.Xorg
+
 pacman -Syu --noconfirm --needed git
 repo_dir="$HOME/.cfg"
 work_tree="$HOME"
@@ -135,8 +141,7 @@ git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 # Установка основных пакетов
 pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx audit shadowsocks xarchiver zip unzip
 
-systemctl start pulseaudio
-
+systemctl enable pulseaudio
 
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
 
