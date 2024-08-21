@@ -6,11 +6,11 @@
   <property name="last-window-width" type="int" value="638"/>
   <property name="last-window-height" type="int" value="1051"/>
   <property name="last-window-maximized" type="bool" value="true"/>
-  <property name="last-separator-position" type="int" value="301"/>
+  <property name="last-separator-position" type="int" value="233"/>
   <property name="last-show-hidden" type="bool" value="true"/>
   <property name="last-details-view-zoom-level" type="string" value="THUNAR_ZOOM_LEVEL_38_PERCENT"/>
-  <property name="last-details-view-visible-columns" type="string" value="THUNAR_COLUMN_DATE_MODIFIED,THUNAR_COLUMN_NAME,THUNAR_COLUMN_SIZE,THUNAR_COLUMN_TYPE"/>
-  <property name="last-details-view-column-widths" type="string" value="50,50,135,50,50,328,50,50,514,50,50,80,50,224"/>
+  <property name="last-details-view-visible-columns" type="string" value="THUNAR_COLUMN_DATE_MODIFIED,THUNAR_COLUMN_LOCATION,THUNAR_COLUMN_NAME,THUNAR_COLUMN_SIZE,THUNAR_COLUMN_TYPE"/>
+  <property name="last-details-view-column-widths" type="string" value="50,50,135,50,50,544,50,50,514,50,50,80,50,160"/>
   <property name="last-menubar-visible" type="bool" value="true"/>
   <property name="last-splitview-separator-position" type="int" value="396"/>
   <property name="last-side-pane" type="string" value="ThunarTreePane"/>

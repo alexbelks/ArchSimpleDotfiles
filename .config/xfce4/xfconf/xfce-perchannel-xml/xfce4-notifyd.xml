@@ -15,4 +15,5 @@
       <value type="string" value="yandex-browser"/>
     </property>
   </property>
+  <property name="date-time-custom-format" type="string" value="%a %H:%M:%S"/>
 </channel>

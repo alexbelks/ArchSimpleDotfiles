@@ -1,5 +1,5 @@
-Interface=lo
-Autohide=false
+Interface=wlp0s20f3
+Autohide=true
 AutohideMissing=false
 SignalColors=true
 ShowIcon=true

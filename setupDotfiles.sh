@@ -2,7 +2,7 @@
 
 sudo sh << EAF
 
-cat << EOF /etc/apparmor.d/usr.bin.pulseaudio
+cat << EOF > /etc/apparmor.d/usr.bin.pulseaudio
 #include <tunables/global>
 
 /usr/bin/pulseaudio {
@@ -88,9 +88,15 @@ cat << EOF > /etc/apparmor.d/usr.bin.Xorg
   deny /dev/mem rw,
   deny /dev/kmem rw,
 }
+EOF
+aa-enforce /etc/apparmor.d/usr.bin.pulseaudio
+aa-enforce /etc/apparmor.d/usr.bin.Xorg
 
+cat << EOF > /etc/audit/rules.d
 
 EOF
+-w /etc/apparmor.d/ -p wa -k apparmor 
+-w /var/log/syslog -p wa -k apparmor
 
 pacman -Syu --noconfirm --needed git
 repo_dir="$HOME/.cfg"
@@ -127,7 +133,9 @@ echo good
 git --git-dir="$repo_dir" --work-tree="$work_tree" checkout -f
 
 # Установка основных пакетов
-pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx; 
+pacman -Syu --noconfirm --needed networkmanager neovim pulseaudio pulseaudio-alsa xorg xorg-xinit xorg-server base-devel xfce4 xfce4-goodies i3 xclip zsh feh fzf python-pip kitty python-pipx audit shadowsocks xarchiver zip unzip
+
+systemctl start pulseaudio
 
 
 TOUCHPAD_CONFIG="/etc/X11/xorg.conf.d/40-libinput.conf"
@@ -149,8 +157,8 @@ echo 'Section "InputClass"
         Option "TappingButtonMap" "lrm" # Left, Right, Middle click for 1, 2, and 3 finger tap respectively
 EndSection' | tee "$TOUCHPAD_CONFIG"
 
-
 EAF
+
 
 if ! command -v yay &> /dev/null
 then
@@ -174,4 +182,6 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 source ~/.zshrc
+pipx install thefuck
+
 

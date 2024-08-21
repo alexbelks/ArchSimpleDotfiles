@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=nekoray
+Comment=
+Exec=/home/alexbelks/nekoray/nekoray
+Icon=network-vpn
+Path=
+Terminal=false
+StartupNotify=false

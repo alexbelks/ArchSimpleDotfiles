@@ -3,8 +3,8 @@
 <channel name="xfwm4" version="1.0">
   <property name="general" type="empty">
     <property name="workspace_names" type="array">
-      <value type="string" value="1"/>
       <value type="string" value="2"/>
+      <value type="string" value="3"/>
       <value type="string" value="3"/>
       <value type="string" value="4"/>
       <value type="string" value="5"/>
@@ -12,8 +12,9 @@
       <value type="string" value="7"/>
       <value type="string" value="8"/>
       <value type="string" value="Workspace 9"/>
+      <value type="string" value="10"/>
     </property>
-    <property name="workspace_count" type="int" value="3"/>
+    <property name="workspace_count" type="int" value="6"/>
     <property name="activate_action" type="string" value="bring"/>
     <property name="borderless_maximize" type="bool" value="true"/>
     <property name="box_move" type="bool" value="false"/>
@@ -92,5 +93,7 @@
     <property name="wrap_workspaces" type="bool" value="false"/>
     <property name="zoom_desktop" type="bool" value="true"/>
     <property name="zoom_pointer" type="bool" value="true"/>
+    <property name="margin_top" type="int" value="0"/>
+    <property name="margin_right" type="int" value="0"/>
   </property>
 </channel>
